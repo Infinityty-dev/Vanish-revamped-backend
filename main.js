@@ -1,6 +1,5 @@
 const express = require('express');
 const database = require('./database/config.js');
-const signUp = require('./schema/userSchema.js');
 const router = require('./route/UserandDriverRoute.js');
 
 
@@ -13,9 +12,6 @@ server.use(express.json());
 
 
 server.use('/api/v1',router)
-
-
-  
 
 
 

@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const {userSignUp, driverSignUp, driverSignIn, userSignIn} = require('../controller/UserAndDriverController')
+const {userSignUp, driverSignUp, driverSignIn, userSignIn} = require('../controllers/UserAndDriverController.js')
 
 
 
