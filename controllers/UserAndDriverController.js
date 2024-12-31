@@ -1,23 +1,36 @@
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
+const userModel = require('../schema/TestUser.js')
+const driverModel = require('../schema/TestDriver.js')
 
 
 
 
 const userSignUp =async (req, res)=>{
     try {
-        const { name , email , password }=req.body
+        const { name , email , phone , password , TandC}=req.body
         
         // validate inputs
-        if(!name || !email || !password){
+        if(!name ||!email || !phone || !password ||!TandC){
             return   res.status(400).json({
-                     message:"PROVIDE YOUR NAME, EMAIL, PASSWORD"
+                     message:"PROVIDE YOUR NAME, EMAIL, PHONE NUMBER, PASSWORD and check the TandC",
+                     error:true,
+                     success:false
+            })
+        }
+
+        const termsAndCondition = await userModel.findOne({TandC})
+        if(!termsAndCondition){
+            return  res.status(400).json({
+                    message:"Invalid T&C",
+                    error:true,
+                    success:false
             })
         }
 
         //hashing the password
         const salt = await bcrypt.genSalt(10);
-        const userHashedPassword = bcrypt.hash(password,  salt);
+        const userHashedPassword = await bcrypt.hash(password,  salt);
 
 
         //verifying if email already exists or not
@@ -31,30 +44,40 @@ const userSignUp =async (req, res)=>{
             })
         }
 
-        //adding new user to database
+        //creating a new user
         const newUser = new userModel({
-            name,
-            email,
-            password: userHashedPassword
+             name,
+             email,
+             phone,
+             password: userHashedPassword,
+             TandC
         })
+       
 
+        const save = await newUser.save();
+            res.status(201).json({
+                message: "User created successfully",
+                data: save,
+                success: true,
+            });
 
-
+    //server based error
     } catch (error) {
         return res.status(500).json({
-            message:"Sign up unsuccessful" || error,
+            message: error.message||"Sign up unsuccessful" ,
             error:true,
             success:false
         })
     }
 }
 
+
 const userSignIn =async (req, res)=>{
     
     try {
-        const {email, password} = req.body
+        const {name, email, password} = req.body
 
-        if(!email || !password){
+        if(!name || !email || !password){
            return res.status(400).json({
                 message:" PROVIDE EMAIL AND PASSWORD"
             })
@@ -71,7 +94,7 @@ const userSignIn =async (req, res)=>{
             })
         }else{
             //compare password
-            const comparePasswords = await bcrypt.compare(password, userEmail.password)
+            const comparePasswords = await bcrypt.compare(password, user.password)
 
             if(!comparePasswords){
                    return res.status(401).json({
@@ -96,7 +119,7 @@ const userSignIn =async (req, res)=>{
     } catch (error) {
         //server based
         res.status(500).json({
-            message:"Sign in unsuccessfull" || error.message,
+            message:  error.message ||"Sign in unsuccessfull",
             error:true,
             success:false
         })
@@ -105,63 +128,87 @@ const userSignIn =async (req, res)=>{
 
 const driverSignUp =async (req, res)=>{
     try {
-        const { name , email , password }=req.body
+        const { fullname , email , phone , password , TandC , carType ,driverLicenceNumber, licenceType}=req.body
         
         // validate inputs
-        if(!name || !email || !password){
+        if(!fullname|| !email|| !phone || !password || !TandC || !carType ||!driverLicenceNumber|| !licenceType){
+            return   res.status(400).json({
+                     message:"Fill in all the fields, they are all required.",
+                     error:true,
+                     success:false
+            })
+        }
+
+        const termsAndCondition = await driverModel.findOne({TandC})
+        if(termsAndCondition){
             return  res.status(400).json({
-                message:"PROVIDE YOUR NAME, EMAIL, PASSWORD"
+                    message:"Invalid T&C",
+                    error:true,
+                    success:false
             })
         }
 
         //hashing the password
         const salt = await bcrypt.genSalt(10);
-        const driverHashedPassword = bcrypt.hash(password,  salt);
+        const driverHashedPassword = await bcrypt.hash(password,  salt);
 
 
         //verifying if email already exists or not
         const driverEmail = await driverModel.findOne({email})
 
         if(driverEmail){
-            return   res.status(400).json({
-                message:"Email already exists",
-                error:true,
-                success:false
+            return  res.status(400).json({
+                    message:"Email already exists",
+                    error:true,
+                    success:false
             })
         }
 
-        //adding new user to database
+        //creating a new driver
         const newDriver = new driverModel({
-            name,
-            email,
-            password: driverHashedPassword
+            fullname,
+             email,
+             phone,
+             password: driverHashedPassword,
+             TandC,
+             carType,
+             driverLicenceNumber,
+            licenceType
         })
+       
 
+        const save = await newDriver.save();
+            res.status(201).json({
+                message: "User created successfully",
+                data: save,
+                success: true,
+            });
 
-
+    //server based error
     } catch (error) {
-        return  res.status(500).json({
-            message:"Sign up unsuccessful" || error,
+        return res.status(500).json({
+            message: error.message||"Sign up unsuccessful" ,
             error:true,
             success:false
         })
     }
 }
 
+
 const driverSignIn =async (req, res)=>{
     try {
-        const {email, password} = req.body
+        const {fullname, email, password} = req.body
 
-        if(!email || !password){
+        if(!fullname || !email || !password){
            return res.status(400).json({
-                message:" PROVIDE EMAIL AND PASSWORD"
+                message:" Fill all the fields, they are all required"
             })
         }
         
         //verifying if email exists in database
-        const user = await userModel.findOne({email})
+        const driver = await driverModel.findOne({email})
 
-        if(!user){
+        if(!driver){
            return res.status(404).json({
                 message:"email not found",
                 error:true,
@@ -169,7 +216,7 @@ const driverSignIn =async (req, res)=>{
             })
         }else{
             //compare password
-            const comparePasswords = await bcrypt.compare(password, userEmail.password)
+            const comparePasswords = await bcrypt.compare(password, driver.password)
 
             if(!comparePasswords){
                    return res.status(401).json({
@@ -179,11 +226,11 @@ const driverSignIn =async (req, res)=>{
                 })
             }else{
                     const token = await jwt.sign(
-                        {_id:user._id},
+                        {_id:driver._id},
                         "qwerty",
                         {expiresIn : "1d"}
             )
-            const {password, ...info} = user._doc;
+            const {password, ...info} = driver._doc;
             res.status(201).json({
                 message:"Sign in successful",
                 data:{ ...info,token }
@@ -194,13 +241,12 @@ const driverSignIn =async (req, res)=>{
     } catch (error) {
         //server based
         res.status(500).json({
-            message:"Sign in unsuccessfull" || error.message,
+            message:  error.message ||"Sign in unsuccessfull",
             error:true,
             success:false
         })
     }
 }
-
 
 
 
