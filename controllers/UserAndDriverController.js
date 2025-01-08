@@ -1,13 +1,16 @@
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
-const userModel = require('../schema/TestUser.js')
-const driverModel = require('../schema/TestDriver.js')
+const nodemailer = require('nodemailer')
+const userModel = require('../Schema/TestUser.js')
+const driverModel = require('../Schema/TestDriver.js')
+const dotenv = require('dotenv').config()
 
 
 
 
 const userSignUp =async (req, res)=>{
     try {
+        //destructuring
         const { name , email , phone , password , TandC}=req.body
         
         // validate inputs
@@ -19,21 +22,6 @@ const userSignUp =async (req, res)=>{
             })
         }
 
-        const termsAndCondition = await userModel.findOne({TandC})
-        if(!termsAndCondition){
-            return  res.status(400).json({
-                    message:"Invalid T&C",
-                    error:true,
-                    success:false
-            })
-        }
-
-        //hashing the password
-        const salt = await bcrypt.genSalt(10);
-        const userHashedPassword = await bcrypt.hash(password,  salt);
-
-
-        //verifying if email already exists or not
         const userEmail = await userModel.findOne({email})
 
         if(userEmail){
@@ -44,15 +32,31 @@ const userSignUp =async (req, res)=>{
             })
         }
 
+        const tandc = await userModel.findOne({TandC})
+        if(tandc === true){
+            return  res.status(401).json({
+                    message:"Invalid T&C",
+                    error:true,
+                    success:false
+            })
+            
+        }
+        
+
+        //hashing the password
+        const salt = await bcrypt.genSalt(10);
+        const userHashedPassword = await bcrypt.hash(password,  salt);
+
+
         //creating a new user
         const newUser = new userModel({
              name,
              email,
              phone,
              password: userHashedPassword,
-             TandC
+             TandC,
+            isVerified:false
         })
-       
 
         const save = await newUser.save();
             res.status(201).json({
@@ -61,17 +65,18 @@ const userSignUp =async (req, res)=>{
                 success: true,
             });
 
-    //server based error
-    } catch (error) {
-        return res.status(500).json({
-            message: error.message||"Sign up unsuccessful" ,
-            error:true,
-            success:false
-        })
+    }catch(error){
+        res.status(500).json({
+            message: error.message,
+            error: true,
+            success: false,
+        });
     }
 }
 
+            
 
+             
 const userSignIn =async (req, res)=>{
     
     try {
@@ -252,9 +257,7 @@ const driverSignIn =async (req, res)=>{
 
 
 
-
-
-module.exports = { userSignUp , userSignIn , driverSignUp , driverSignIn}
+module.exports = {  userSignUp , userSignIn , driverSignUp , driverSignIn}
 
 
 

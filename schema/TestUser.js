@@ -14,11 +14,15 @@ const userSchema = new mongoose.Schema({ //create an instance of mongoose schema
       phone: {
         type: String,
         required: true,
-        unique: true,
+        // unique: true,
       },
       password: {
         type: String,
         required: true,
+      },
+     isVerified:{
+        type:Boolean,
+        default:false,
       },
       TandC:{
         type: Boolean,
@@ -45,12 +49,12 @@ const userSchema = new mongoose.Schema({ //create an instance of mongoose schema
     avatarID: {
       type: String,
     },
-    // store: [
-    //   {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: "stores",
-    //   },
-    // ],
+    userAccount: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "services",
+      },
+    ],
   },
   { timestamps: true }
 );

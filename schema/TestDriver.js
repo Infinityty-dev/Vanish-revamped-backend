@@ -20,6 +20,10 @@ const driverSchema = new mongoose.Schema({ //create an instance of mongoose sche
         type: String,
         required: true,
       },
+      isVerified:{
+        type:Boolean,
+        default:false,
+      },
       TandC:{
         type: Boolean,
         required: true,

@@ -46,7 +46,7 @@ const userSchema = new mongoose.Schema({
         required: true,
     },
 
-    UserComlaint:{
+    UserComplaint:{
         type: Number,
 
     },
