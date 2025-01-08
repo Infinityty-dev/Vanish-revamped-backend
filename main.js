@@ -1,6 +1,7 @@
 const express = require('express');
 const database = require('./database/config.js');
 const router = require('./route/UserandDriverRoute.js');
+const movementAndServiceOption = require('./route/userMovementDetailRoute.js')
 
 
 const server = express();
@@ -11,6 +12,7 @@ database()
 server.use(express.json());
 
 
+server.use('/api/v1', movementAndServiceOption)
 server.use('/api/v1',router)
 
 

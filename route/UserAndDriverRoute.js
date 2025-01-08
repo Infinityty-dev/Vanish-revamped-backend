@@ -8,6 +8,7 @@ router.post('/userSignup',userSignUp)
 router.post('/userSignin',userSignIn)
 router.post('/driverSignup',driverSignUp)
 router.post('/driverSignin',driverSignIn)
+// router.get('/verify/:token',req,res)
 
 
 module.exports = router
