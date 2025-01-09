@@ -1,10 +1,24 @@
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
-const nodemailer = require('nodemailer')
+// const nodemailer = require('nodemailer')
 const userModel = require('../Schema/TestUser.js')
 const driverModel = require('../Schema/TestDriver.js')
-const dotenv = require('dotenv').config()
+require('dotenv').config()
+// const { sendVerificationEmail } = require("../utils/email");
 
+
+
+
+// Transporter for nodemailer
+// const transporter = nodemailer.createTransport({
+//     host: process.env.EMAIL_HOST,
+//     port: process.env.EMAIL_PORT,
+//     secure: false, // use true for 465, false for other ports
+//     auth: {
+//       user: process.env.MY_EMAIL,
+//       pass: process.env.MY_EMAIL_PASSWORD,
+//     },
+//   });
 
 
 
@@ -32,8 +46,19 @@ const userSignUp =async (req, res)=>{
             })
         }
 
+
+        // // Generate a token
+        //  const token = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: "1h" });
+
+        //  // Send verification email
+        // await sendVerificationEmail(email, token);
+        // res.status(200).send("Verification email sent");
+
+
+
+
         const tandc = await userModel.findOne({TandC})
-        if(tandc === true){
+        if(tandc){
             return  res.status(401).json({
                     message:"Invalid T&C",
                     error:true,
@@ -66,6 +91,7 @@ const userSignUp =async (req, res)=>{
             });
 
     }catch(error){
+        console.error(error);
         res.status(500).json({
             message: error.message,
             error: true,
@@ -74,7 +100,6 @@ const userSignUp =async (req, res)=>{
     }
 }
 
-            
 
              
 const userSignIn =async (req, res)=>{
@@ -111,7 +136,7 @@ const userSignIn =async (req, res)=>{
                     const token = await jwt.sign(
                         {_id:user._id},
                         "qwerty",
-                        {expiresIn : "1d"}
+                        {expiresIn : "7d"}
             )
             const {password, ...info} = user._doc;
             res.status(201).json({
@@ -257,7 +282,7 @@ const driverSignIn =async (req, res)=>{
 
 
 
-module.exports = {  userSignUp , userSignIn , driverSignUp , driverSignIn}
+module.exports = { userSignUp , userSignIn , driverSignUp , driverSignIn}
 
 
 
