@@ -3,7 +3,7 @@ const database = require('./database/config.js');
 const bodyParser = require('body-parser');
 const cors = require("cors");
 const router = require('./route/UserAndDriverRoute.js');
-const movementAndServiceOption = require('./route/userMovementDetailRoute.js');
+const movementAndServiceOption = require('./UserMovementDetailRoute.js');
 
 //server
 const server = express();

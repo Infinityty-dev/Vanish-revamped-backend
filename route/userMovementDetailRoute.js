@@ -1,6 +1,6 @@
 const express = require("express");
-const { userMovementPlan } = require("../controllers/userMovementAndServiceOptionsDetailsController.js");
 const router = express.Router();
+const { userMovementPlan } = require("../UserMovementAndServiceOptionsDetailsController.js");
 
 router.route("/newMovementAndServiceDetail/:id").post(userMovementPlan);
 
