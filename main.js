@@ -2,8 +2,9 @@ const express = require('express');
 const database = require('./database/config.js');
 const bodyParser = require('body-parser');
 const cors = require("cors");
+const movementAndServiceOption = require('./UserMovementDetailRoute.js');
 const router = require('./route/UserAndDriverRoute.js');
-const movementAndServiceOption = require('../route/UserMovementDetailRoute.js');
+
 
 //server
 const server = express();
@@ -20,8 +21,8 @@ database()
 
 
 // Routes
-server.use('/api/v1', movementAndServiceOption)
-server.use('/api/v1',router)
+server.use('/api/v1', movementAndServiceOption);
+server.use('/api/v1',router);
 
 
 
