@@ -1,8 +1,8 @@
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
 // const nodemailer = require('nodemailer')
-const userModel = require('../Schema/TestUser.js')
-const driverModel = require('../Schema/TestDriver.js')
+const userModel = require('../schema/TestUser.js')
+const driverModel = require('../schema/TestDriver.js')
 require('dotenv').config()
 // const { sendVerificationEmail } = require("../utils/email");
 

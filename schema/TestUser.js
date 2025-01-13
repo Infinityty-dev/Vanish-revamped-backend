@@ -1,5 +1,5 @@
-const mongoose = require("mongoose");//import mongoose
-const userSchema = new mongoose.Schema({ //create an instance of mongoose schema
+const mongoose = require("mongoose");
+const userSchema = new mongoose.Schema({ 
   
    
     name: {
