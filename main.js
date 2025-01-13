@@ -2,7 +2,7 @@ const express = require('express');
 const database = require('./database/config.js');
 const bodyParser = require('body-parser');
 const cors = require("cors");
-const movementAndServiceOption = require('./route/UserMovementDetailRoute');
+const movementAndServiceOption = require('./route/UserMovementDetailRoute.js');
 const router = require('./route/UserAndDriverRoute.js');
 
 
