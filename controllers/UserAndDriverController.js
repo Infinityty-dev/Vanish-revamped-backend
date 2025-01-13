@@ -1,8 +1,8 @@
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
 // const nodemailer = require('nodemailer')
-const userModel = require('Vanish-revamped-backend/Schema/TestUser.js')
-const driverModel = require('Vanish-revamped-backend/Schema/TestDriver.js')
+const userModel = require('../Schema/TestUser.js')
+const driverModel = require('../Schema/TestDriver.js')
 require('dotenv').config()
 // const { sendVerificationEmail } = require("../utils/email");
 

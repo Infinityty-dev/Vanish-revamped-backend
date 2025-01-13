@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const {userSignUp, driverSignUp, driverSignIn, userSignIn} = require('/Vanish-revamped-backend/src/controllers/UserAndDriverController.js')
+const {userSignUp, driverSignUp, driverSignIn, userSignIn} = require('../controllers/UserAndDriverController.js')
 
 
 
