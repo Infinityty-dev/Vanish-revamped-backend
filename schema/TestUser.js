@@ -52,12 +52,12 @@ const userSchema = new mongoose.Schema({
     userAccount: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "services",
+        ref: "Services",
       },
     ],
   },
   { timestamps: true }
 );
 
-const userModel = mongoose.model("user", userSchema);
+const userModel = mongoose.model("User", userSchema);
 module.exports = userModel;

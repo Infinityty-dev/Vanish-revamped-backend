@@ -4,7 +4,7 @@ const serviceModel = require('../schema/ServiceOptionAndMovementDetailsSchema.js
 const mongoose = require('mongoose');
 
 
-exports.userMovementPlan = async (req,res)=>{
+const userMovementPlan = async (req,res)=>{
 
     try{
         const {serviceType,pickUpDate,pickUpLocation,pickUpZone,dropOffLocation,dropOffZone} = req.body
@@ -66,4 +66,4 @@ exports.userMovementPlan = async (req,res)=>{
     }
 }
 
-// module.exports = {userMovementPlan}
+module.exports = {userMovementPlan}
