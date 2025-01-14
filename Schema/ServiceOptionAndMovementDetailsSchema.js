@@ -4,12 +4,13 @@ const serviceSchema = new mongoose.Schema({
 
 runningService:{
     type: mongoose.Schema.Types.ObjectId,
-    ref:"user"
+    ref:"User"
 },  
 
 serviceType:{
     type : String,
-    required:true
+    required:true,
+    trim: true
 },
 
 pickUpDate: {
@@ -33,11 +34,11 @@ dropOffZone: {
     type: String,
     required:true
 },
+}, { timestamps: true }
 
+)
 
-})
-
-const Service = mongoose.model('services',serviceSchema);
+const Service = mongoose.model('Services',serviceSchema);
 
 module.exports = Service
 

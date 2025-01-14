@@ -79,5 +79,5 @@ const driverSchema = new mongoose.Schema({ //create an instance of mongoose sche
   { timestamps: true }
 );
 
-const driverModel = mongoose.model("driver", driverSchema);
+const driverModel = mongoose.model("Driver", driverSchema);
 module.exports = driverModel;
