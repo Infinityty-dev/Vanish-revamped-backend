@@ -1,6 +1,6 @@
 
-const TestUser = require("../schema/TestUser.js");
-const serviceModel = require('../schema/MovementServiceOptioin.js');
+const TestUser = require("../model/TestUser.js");
+const serviceModel = require('../model/MovementServiceOption.js');
 // const path = require('path');
 // const serviceModel = require(path.resolve(__dirname, '../schema/ServiceOptionAndMovement'));
 
