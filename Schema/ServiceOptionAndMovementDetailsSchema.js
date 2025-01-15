@@ -38,7 +38,7 @@ const serviceSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 // Prevent model overwrite in development
-const Service = mongoose.models.Service || mongoose.model('Service', serviceSchema);
+const Service =  mongoose.model('Service', serviceSchema);
 
 module.exports = Service;
 
