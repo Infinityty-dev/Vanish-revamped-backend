@@ -1,6 +1,6 @@
 
 const TestUser = require("../schema/TestUser.js");
-const serviceModel = require('../schema/ServiceOptionAndMovementDetailsSchema.js');
+const serviceModel = require('../schema/ServiceOptionAndMovement.js');
 const mongoose = require('mongoose');
 
 
