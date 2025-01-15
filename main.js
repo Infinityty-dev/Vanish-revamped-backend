@@ -4,11 +4,12 @@ const bodyParser = require('body-parser');
 const cors = require("cors");
 const movementAndServiceOption = require('./route/UserMovementDetailRoute.js');
 const router = require('./route/UserAndDriverRoute.js');
+require('dotenv').config();
 
 
 //server
 const server = express();
-const port = 5500;
+const port = process.env.PORT || 5500;
 
 // Middleware
 server.use(bodyParser.urlencoded({ extended: true }));
